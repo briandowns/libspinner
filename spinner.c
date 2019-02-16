@@ -44,6 +44,9 @@ enum {
     SHOW
 };
 
+/*
+ * toggle the cursor on and off
+ */
 #define CURSOR_STATE(x)         \
     switch (x) {                \
         case 0:                 \
@@ -158,9 +161,13 @@ spin(void *arg)
             i = 0;
             continue;
         }
-        printf("\r%s%s%s", s->prefix, char_sets[s->char_set_id][i], s->suffix);
+        char output[MAX_CHARS*4];
+        sprintf(output, "\r%s%s%s", s->prefix, char_sets[s->char_set_id][i], s->suffix);
+        s->last_output = output;
+        printf("%s", output);
         fflush(stdout);
-        usleep(s->duration);
+        printf("%c[2K", 27);
+        usleep(s->delay);
     }
     return NULL;
 }
@@ -192,4 +199,20 @@ spinner_stop(spinner_t *s)
         printf("%s", s->final_msg);
     }
     CURSOR_STATE(SHOW);
+}
+
+void 
+spinner_char_set_update(spinner_t *s, int id) 
+{
+    pthread_mutex_lock(&s->mu);
+    s->char_set_id = id;
+    pthread_mutex_unlock(&s->mu);
+}
+
+void
+spinner_update_speed(spinner_t *s, uint64_t delay) 
+{
+    pthread_mutex_lock(&s->mu);
+    s->delay = delay;
+    pthread_mutex_unlock(&s->mu);
 }

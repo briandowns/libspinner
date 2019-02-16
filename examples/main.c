@@ -8,7 +8,7 @@ int
 main(int argc, char **argv) 
 {
 	spinner_t *s = spinner_new(31);
-	s->duration = 100000; 
+	s->delay = 100000; 
 	s->prefix = "Running ";
 	s->final_msg = "\nAll done\n";
 	spinner_start(s);

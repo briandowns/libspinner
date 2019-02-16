@@ -36,7 +36,7 @@
 
 /*
  * maximun number of characters in an array
- * of indicators
+ * of indicators.
  */
 #define MAX_CHARS 1024
 
@@ -44,21 +44,22 @@ extern char *char_sets[][MAX_CHARS];
 
 /*
  * spinner_t maintains the state of the spinner
- * and allows for control it 
+ * and allows for control.
  */
 typedef struct {
 	uint8_t char_set_id;
-	uint64_t duration;
+	uint64_t delay;
 	pthread_mutex_t mu;
 	char *prefix; 
 	char *suffix;
 	char *final_msg;
+	char *last_output;
 	int running;
 } spinner_t;
 
 /*
  * spinner_new creates a new pointer to a spinner_t
- * struct and sets sane defaults for immediate use
+ * struct and sets sane defaults for immediate use.
  */
 spinner_t *spinner_new(int id);
 
@@ -69,13 +70,25 @@ spinner_t *spinner_new(int id);
 void spinner_free(spinner_t *s);
 
 /*
- * spinner_start starts the spinner
+ * spinner_start starts the spinner.
  */
 void spinner_start(spinner_t *s);
 
 /*
- * spinner_stop stops the spinner
+ * spinner_stop stops the spinner.
  */
 void spinner_stop(spinner_t *s);
+
+/*
+ * spinner_char_set_update updates the character
+ * set with the new given one.
+ */
+void spinner_char_set_update(spinner_t *s, int id);
+
+/*
+ * spinner_update_speed updates the speed at which
+ * the spinner is spinning.
+ */
+void spinner_update_speed(spinner_t *s, uint64_t delay);
 
 #endif
