@@ -45,7 +45,7 @@ enum {
 };
 
 #define CURSOR_STATE(x)         \
-    switch  (x) {               \
+    switch (x) {                \
         case 0:                 \
             printf("\e[?25l");  \
             break;              \
@@ -53,7 +53,7 @@ enum {
             printf("\e[?25h");  \
             break;              \
     }                           \
-  	fflush(stdout);             \
+    fflush(stdout);             \
 
 char *char_sets[][MAX_CHARS] = { 
     {"/", "-", "\\", "|"}, // 0
