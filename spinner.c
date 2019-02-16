@@ -57,7 +57,7 @@ enum {
 
 char *char_sets[][MAX_CHARS] = { 
     {"/", "-", "\\", "|"}, // 0
-	{"+", "x"}             // 1
+    {"+", "x"}             // 1
 };
 
 spinner_t*
