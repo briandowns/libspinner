@@ -116,7 +116,7 @@ spinner_new(int id)
     s->prefix = "";
     s->suffix = "";
     s->final_msg = "";
-    s->running = 0;
+    s->active = 0; 
     return s;
 }
 
@@ -139,7 +139,7 @@ spinner_state(spinner_t *s)
 {
     int state;
     pthread_mutex_lock(&s->mu);
-    state = s->running;
+    state = s->active;
     pthread_mutex_unlock(&s->mu);
     return state;
 }
@@ -176,12 +176,12 @@ void
 spinner_start(spinner_t *s) 
 {
     pthread_mutex_lock(&s->mu);
-    if (s->running > 0) {
+    if (s->active > 0) {
         return;
     }
     CURSOR_STATE(HIDE);
     pthread_t spin_thread;
-    s->running = 0;
+    s->active = 0;
     pthread_mutex_unlock(&s->mu);
     if (pthread_create(&spin_thread, NULL, spin, s)) {
         fprintf(stderr, "error creating thread\n");
@@ -193,7 +193,7 @@ void
 spinner_stop(spinner_t *s) 
 {
     pthread_mutex_lock(&s->mu);
-    s->running = 1;
+    s->active = 1;
     pthread_mutex_unlock(&s->mu);
     if (strlen(s->final_msg) > 0) {
         printf("%s", s->final_msg);

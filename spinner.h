@@ -54,7 +54,7 @@ typedef struct {
 	char *suffix;
 	char *final_msg;
 	char *last_output;
-	int running;
+	int active;
 } spinner_t;
 
 /*

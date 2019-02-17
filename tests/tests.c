@@ -2,62 +2,55 @@
 #include <stdlib.h>
 #include <strings.h>
 
-#include "../builtins.h"
+#include "../spinner.h"
 #include "unity/unity.h"
 
 /**
- * test_true_cmd validates that 1 is returned
- * to represent false.
+ * test_spinner_new verifies that the spinner_new 
+ * function returns a valid pointer.
  */
 void
-test_true_cmd(void)
+test_spinner_new(void)
 {
-    int got = true_cmd(0, NULL);
-    int expected = 1;
-
-    TEST_ASSERT_EQUAL(expected, got);
+    spinner_t *s = spinner_new(0);
+    TEST_ASSERT_NOT_NULL(s);
+    spinner_free(s);
 }
 
-/**
- * test_false_cmd validates that 0 is returned
- * to represent false.
+/*
+ * test_spinner_char_set_update verifies that a
+ * new character set can be provided safely.
  */
 void
-test_false_cmd(void)
+test_spinner_char_set_update(void)
 {
-    int got = false_cmd(0, NULL);
-    int expected = 0;
-
-    TEST_ASSERT_EQUAL(expected, got);
+    spinner_t *s = spinner_new(0);
+    spinner_char_set_update(s, 1);
+    TEST_ASSERT_EQUAL_UINT8(s->char_set_id, 1);
+    spinner_free(s);
 }
 
-/**
- * test_which_cmd validates that 0 is returned
- * on valid command and 1 on invalid arg count
+/*
+ * test_spinner_update_speed verifies that the 
+ * speed of the spinner can be updates safely.
  */
 void
-test_which_cmd(void)
+test_spinner_update_speed(void)
 {
-  int got = which_cmd(0, NULL);
-  int expected = 1;
-
-  TEST_ASSERT_EQUAL(expected, got);
-
-  // since which is guaranteed to be in builtins when testing itself
-  // use that as the test example looking for a 0 exit code
-  char *args[] = {"which", "which"};
-  got = which_cmd(2, args);
-  expected = 0;
-
-  TEST_ASSERT_EQUAL(expected, got);
+    spinner_t *s = spinner_new(0);
+    s->delay = 100000;
+    uint64_t expected = 200000;
+    spinner_update_speed(s, expected);
+    TEST_ASSERT_EQUAL_UINT8(s->delay, expected);
+    spinner_free(s);
 }
 
 int main(void) {
-  UNITY_BEGIN();
+	UNITY_BEGIN();
 
-  RUN_TEST(test_true_cmd);
-  RUN_TEST(test_false_cmd);
-  RUN_TEST(test_which_cmd);
+	RUN_TEST(test_spinner_new);
+  RUN_TEST(test_spinner_char_set_update);
+  RUN_TEST(test_spinner_update_speed);
 
-  return UNITY_END();
+	return UNITY_END();
 }
