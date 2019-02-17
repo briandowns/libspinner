@@ -7,7 +7,7 @@
 int 
 main(int argc, char **argv) 
 {
-	spinner_t *s = spinner_new(31);
+	spinner_t *s = spinner_new(9);
 	s->delay = 100000; 
 	s->prefix = "Running ";
 	s->final_msg = "\nAll done\n";
