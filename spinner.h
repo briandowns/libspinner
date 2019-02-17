@@ -56,6 +56,7 @@ typedef struct {
 	char *final_msg;
 	char *last_output;
 	int active;
+	int reversed;
 } spinner_t;
 
 /*
@@ -81,6 +82,11 @@ void spinner_start(spinner_t *s);
 void spinner_stop(spinner_t *s);
 
 /*
+ * spinner_restart will restart the spinner.
+ */
+void spinner_restart(spinner_t *s);
+
+/*
  * spinner_char_set_update updates the character
  * set with the new given one.
  */
@@ -97,5 +103,10 @@ void spinner_update_speed(spinner_t *s, uint64_t delay);
  * write spinner output to.
  */
 void spinner_set_output_dest(spinner_t *s, FILE *fd);
+
+/*
+ * spinner_reverse reverses the direction of the spinner.
+ */
+void spinner_reverse(spinner_t *s);
 
 #endif

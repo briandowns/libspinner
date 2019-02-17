@@ -37,14 +37,6 @@
 #include "spinner.h"
 
 /*
- * cursor state
- */
-enum {
-    HIDE,
-    SHOW
-};
-
-/*
  * toggle the cursor on and off
  */
 #define CURSOR_STATE(x)         \
@@ -103,8 +95,8 @@ char *char_sets[][MAX_CHARS] = {
 	{"[>>>          >]", "[]>>>>        []", "[]  >>>>      []", "[]    >>>>    []", "[]      >>>>  []", "[]        >>>>[]", "[>>          >>]"},
 	{"♠", "♣", "♥", "♦"},
 	{"➞", "➟", "➠", "➡", "➠", "➟"},
-	{"  |  ", " \\   ", "_    ", " \\   ", "  |  ", "   / ", "    _", "   / "},
-	{"  . . . .", ".   . . .", ". .   . .", ". . .   .", ". . . .  ", ". . . . ."},
+    {"  |  ", " \\   ", "_    ", " \\   ", "  |  ", "   / ", "    _", "   / "},
+    {"  . . . .", ".   . . .", ". .   . .", ". . .   .", ". . . .  ", ". . . . ."},
     {" |     ", "  /    ", "   _   ", "    \\  ", "     | ", "    \\  ", "   _   ", "  /    "},
 };
 
@@ -165,7 +157,6 @@ spin(void *arg)
         char output[MAX_CHARS*4];
         sprintf(output, "\r%s%s%s", s->prefix, char_sets[s->char_set_id][i], s->suffix);
         s->last_output = output;
-        //printf("%s", output);
         fprintf(s->output_dst, "%s", output);
         fflush(stdout);
         printf("%c[2K", 27);
@@ -177,11 +168,11 @@ spin(void *arg)
 void
 spinner_start(spinner_t *s) 
 {
-    pthread_mutex_lock(&s->mu);
     if (s->active > 0) {
         return;
     }
-    CURSOR_STATE(HIDE);
+    pthread_mutex_lock(&s->mu);
+    CURSOR_STATE(0);
     pthread_t spin_thread;
     s->active = 0;
     pthread_mutex_unlock(&s->mu);
@@ -200,7 +191,14 @@ spinner_stop(spinner_t *s)
     if (strlen(s->final_msg) > 0) {
         printf("%s", s->final_msg);
     }
-    CURSOR_STATE(SHOW);
+    CURSOR_STATE(1);
+}
+
+void
+spinner_restart(spinner_t *s) 
+{
+    spinner_stop(s);
+    spinner_start(s);
 }
 
 void 
@@ -224,5 +222,15 @@ spinner_set_output_dest(spinner_t *s, FILE *fd)
 {
     pthread_mutex_lock(&s->mu);
     s->output_dst = fd;
+    pthread_mutex_unlock(&s->mu);
+}
+
+void
+spinner_reverse(spinner_t *s)
+{
+    pthread_mutex_lock(&s->mu);
+    if (s->reversed == 0) {
+        s->reversed = 1;
+    }
     pthread_mutex_unlock(&s->mu);
 }
