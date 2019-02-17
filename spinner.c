@@ -113,6 +113,7 @@ spinner_new(int id)
 {
     spinner_t *s = malloc(sizeof(spinner_t));
     s->char_set_id = id;
+    s->output_dst = stdout;
     s->prefix = "";
     s->suffix = "";
     s->final_msg = "";
@@ -164,7 +165,8 @@ spin(void *arg)
         char output[MAX_CHARS*4];
         sprintf(output, "\r%s%s%s", s->prefix, char_sets[s->char_set_id][i], s->suffix);
         s->last_output = output;
-        printf("%s", output);
+        //printf("%s", output);
+        fprintf(s->output_dst, "%s", output);
         fflush(stdout);
         printf("%c[2K", 27);
         usleep(s->delay);
@@ -214,5 +216,13 @@ spinner_update_speed(spinner_t *s, uint64_t delay)
 {
     pthread_mutex_lock(&s->mu);
     s->delay = delay;
+    pthread_mutex_unlock(&s->mu);
+}
+
+void
+spinner_set_output_dest(spinner_t *s, FILE *fd)
+{
+    pthread_mutex_lock(&s->mu);
+    s->output_dst = fd;
     pthread_mutex_unlock(&s->mu);
 }

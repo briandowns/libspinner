@@ -17,4 +17,3 @@ main(int argc, char **argv)
 	spinner_free(s);
 	return 0;
 }
-

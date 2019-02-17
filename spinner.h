@@ -50,6 +50,7 @@ typedef struct {
 	uint8_t char_set_id;
 	uint64_t delay;
 	pthread_mutex_t mu;
+	FILE *output_dst;
 	char *prefix; 
 	char *suffix;
 	char *final_msg;
@@ -90,5 +91,11 @@ void spinner_char_set_update(spinner_t *s, int id);
  * the spinner is spinning.
  */
 void spinner_update_speed(spinner_t *s, uint64_t delay);
+
+/*
+ * spinner_set_output_dest sets the file descriptor to 
+ * write spinner output to.
+ */
+void spinner_set_output_dest(spinner_t *s, FILE *fd);
 
 #endif
