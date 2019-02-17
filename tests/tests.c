@@ -18,6 +18,35 @@ test_spinner_new(void)
 }
 
 /*
+ * test_spinner_start verifies that the spinner
+ * starts when start is called.
+ */
+void
+test_spinner_start(void)
+{
+    spinner_t *s = spinner_new(0);
+    spinner_start(s);
+    int current_state = s->active;
+    TEST_ASSERT_EQUAL_INT(s->active, current_state);
+    spinner_free(s);
+}
+
+/*
+ * test_spinner_stop verifies that the spinner
+ * stops when stop is called.
+ */
+void
+test_spinner_stop(void)
+{
+    spinner_t *s = spinner_new(0);
+    spinner_start(s);
+    spinner_stop(s);
+    int current_state = s->active;
+    TEST_ASSERT_EQUAL_INT(s->active, current_state);
+    spinner_free(s);
+}
+
+/*
  * test_spinner_char_set_update verifies that a
  * new character set can be provided safely.
  */
@@ -46,11 +75,13 @@ test_spinner_update_speed(void)
 }
 
 int main(void) {
-	UNITY_BEGIN();
+	  UNITY_BEGIN();
 
-	RUN_TEST(test_spinner_new);
-  RUN_TEST(test_spinner_char_set_update);
-  RUN_TEST(test_spinner_update_speed);
+    RUN_TEST(test_spinner_new);
+    RUN_TEST(test_spinner_start);
+    RUN_TEST(test_spinner_stop);
+    RUN_TEST(test_spinner_char_set_update);
+    RUN_TEST(test_spinner_update_speed);
 
-	return UNITY_END();
+    return UNITY_END();
 }
