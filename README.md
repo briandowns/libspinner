@@ -1,6 +1,6 @@
 # libspinner
 
-libspinner is a C library that provides terminal spinners and progress indicators to display in the terminal when work is taking place. This is a port of the Go library [here](github.com/briandowns/spinner).
+libspinner is a C library that provides terminal spinners and progress indicators to display in the terminal. This is a port of the Go library [here](github.com/briandowns/spinner).
 
 ## Test
 
