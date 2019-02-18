@@ -22,7 +22,7 @@ index | character set | sample gif
 6  | ```◴◷◶◵``` | ![Sample Gif](gifs/6.gif)
 7  | ```◐◓◑◒``` | ![Sample Gif](gifs/7.gif)
 8  | ```.oO@*``` | ![Sample Gif](gifs/8.gif)
-9  | ```|/-\``` | ![Sample Gif](gifs/9.gif)
+9  | ```|/-\\``` | ![Sample Gif](gifs/9.gif)
 10 | ```◡◡⊙⊙◠◠``` | ![Sample Gif](gifs/10.gif)
 11 | ```⣾⣽⣻⢿⡿⣟⣯⣷``` | ![Sample Gif](gifs/11.gif)
 12 | ```>))'> >))'>  >))'>   >))'>    >))'>   <'((<  <'((< <'((<``` | ![Sample Gif](gifs/12.gif)
