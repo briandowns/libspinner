@@ -67,7 +67,7 @@ spinner_t *spinner_new(int id);
 
 /*
  * spinner_free frees the used memory of the 
- * spinner_t pointer
+ * spinner_t pointer.
  */
 void spinner_free(spinner_t *s);
 
