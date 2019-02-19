@@ -174,7 +174,7 @@ spinner_start(spinner_t *s)
     pthread_mutex_lock(&s->mu);
     CURSOR_STATE(0);
     pthread_t spin_thread;
-    s->active = 0;
+    s->active = 1;
     pthread_mutex_unlock(&s->mu);
     if (pthread_create(&spin_thread, NULL, spin, s)) {
         fprintf(stderr, "error creating thread\n");
@@ -186,7 +186,7 @@ void
 spinner_stop(spinner_t *s) 
 {
     pthread_mutex_lock(&s->mu);
-    s->active = 1;
+    s->active = 0;
     pthread_mutex_unlock(&s->mu);
     if (strlen(s->final_msg) > 0) {
         printf("%s", s->final_msg);
