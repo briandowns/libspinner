@@ -147,6 +147,8 @@ spin(void *arg)
 {
     spinner_t *s = (spinner_t*)arg;
     size_t set_size = sizeof(char_sets[s->char_set_id]) / sizeof(char_sets[s->char_set_id][0]);
+    if (s->reversed == 1) {
+    }
     for (size_t i = 0; i < set_size; i++) {
         // check if we're reached an index with no string. If 
         // we have, reset the counter and start again.
@@ -174,12 +176,12 @@ spinner_start(spinner_t *s)
     pthread_mutex_lock(&s->mu);
     CURSOR_STATE(0);
     pthread_t spin_thread;
-    s->active = 1;
     pthread_mutex_unlock(&s->mu);
     if (pthread_create(&spin_thread, NULL, spin, s)) {
         fprintf(stderr, "error creating thread\n");
         return;
     }
+    s->active = 1;
 }
 
 void
@@ -197,8 +199,10 @@ spinner_stop(spinner_t *s)
 void
 spinner_restart(spinner_t *s) 
 {
+    printf("Restart called\n");
     spinner_stop(s);
     spinner_start(s);
+    printf("Restarted\n");
 }
 
 void 
@@ -232,5 +236,21 @@ spinner_reverse(spinner_t *s)
     if (s->reversed == 0) {
         s->reversed = 1;
     }
+    size_t n = sizeof(char_sets[s->char_set_id]) / sizeof(char_sets[s->char_set_id][0]) - 1;
+    int j = 0;
+    while (n > j) {
+        if (char_sets[s->char_set_id][n] == NULL) {
+            n--;
+            j++;
+            continue;
+        } 
+        char *temp = char_sets[s->char_set_id][n];
+        char_sets[s->char_set_id][n] = char_sets[s->char_set_id][j];
+        char_sets[s->char_set_id][j] = temp;
+        n--;
+        j++;
+    }
+    printf("finished reversing\n");
     pthread_mutex_unlock(&s->mu);
+    spinner_restart(s);
 }

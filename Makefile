@@ -1,5 +1,5 @@
 cc ?= cc
-CFLAGS = -Wall -lpthread
+CFLAGS = -std=c99 -O3 -Wall -lpthread 
 LDFALGS = 
 
 .PHONY: run-example
