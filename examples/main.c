@@ -11,7 +11,7 @@ main(int argc, char **argv)
 	s->delay = 100000; 
 	s->prefix = "Running ";
 	s->suffix = " I'm a suffix";
-	s->final_msg  = "Complete!\n";
+	s->final_msg  = "\nComplete!\n";
 	spinner_start(s);
 	sleep(5);           // simulate some work
 	spinner_stop(s);
