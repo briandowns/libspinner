@@ -196,10 +196,8 @@ spinner_stop(spinner_t *s)
 void
 spinner_restart(spinner_t *s) 
 {
-    printf("Restart called\n");
     spinner_stop(s);
     spinner_start(s);
-    printf("Restarted\n");
 }
 
 void 
