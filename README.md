@@ -12,6 +12,19 @@ An example can be found in the `examples` directory.
 make test
 ```
 
+## Features
+
+* Start
+* Stop
+* Restart
+* Reverse direction [in progress]
+* Update the spinner character set
+* Update the spinner speed
+* Prefix or append text
+* Change spinner color, background, and text attributes such as bold / italics [in progress]
+* Chain, pipe, redirect output
+* Output final string on spinner/indicator completion
+
 ## Available Character Sets
 (cursor not visible in normal operation)
 
@@ -60,15 +73,14 @@ index | character set | sample gif
 40 | ```⬖ ⬘ ⬗ ⬙``` | ![Sample Gif](gifs/42.gif)
 41 | ```[>>>          >] []>>>>        [] []  >>>>      [] []    >>>>    [] []      >>>>  [] []        >>>>[] [>>          >>]``` | ![Sample Gif](gifs/43.gif)
 
-## Features
+## Contributing
 
-* Start
-* Stop
-* Restart
-* Reverse direction [in progress]
-* Update the spinner character set
-* Update the spinner speed
-* Prefix or append text
-* Change spinner color, background, and text attributes such as bold / italics [in progress]
-* Chain, pipe, redirect output
-* Output final string on spinner/indicator completion
+Please feel free to open a PR!
+
+## License
+
+libspinner source code is available under the BSD 2 clause [License](/LICENSE).
+
+## Contact
+
+[@bdowns328](http://twitter.com/bdowns328)
