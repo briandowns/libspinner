@@ -35,7 +35,9 @@
  * maximun number of characters in an array
  * of indicators.
  */
+#ifndef MAX_CHARS
 #define MAX_CHARS 1024
+#endif
 
 /*
  * char_sets is the collection of spinners.

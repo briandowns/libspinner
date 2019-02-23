@@ -100,6 +100,7 @@ char *char_sets[][MAX_CHARS] = {
 spinner_t*
 spinner_new(int id) 
 {
+    printf("%d\n", MAX_CHARS);
     spinner_t *s = malloc(sizeof(spinner_t));
     s->char_set_id = id;
     s->output_dst = stdout;
