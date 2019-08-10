@@ -107,7 +107,6 @@ char *char_sets[][MAX_CHARS] = {
 spinner_t*
 spinner_new(int id) 
 {
-    printf("%d\n", MAX_CHARS);
     spinner_t *s = malloc(sizeof(spinner_t));
     s->char_set_id = id;
     s->output_dst = stdout;
@@ -209,7 +208,7 @@ spinner_restart(spinner_t *s)
 }
 
 void 
-spinner_char_set_update(spinner_t *s, int id) 
+spinner_char_set_update(spinner_t *s, const int id) 
 {
     pthread_mutex_lock(&s->mu);
     s->char_set_id = id;
@@ -217,7 +216,7 @@ spinner_char_set_update(spinner_t *s, int id)
 }
 
 void
-spinner_update_speed(spinner_t *s, uint64_t delay) 
+spinner_update_speed(spinner_t *s, const uint64_t delay) 
 {
     pthread_mutex_lock(&s->mu);
     s->delay = delay;
@@ -253,7 +252,6 @@ spinner_reverse(spinner_t *s)
         n--;
         j++;
     }
-    printf("finished reversing\n");
     pthread_mutex_unlock(&s->mu);
     spinner_restart(s);
 }

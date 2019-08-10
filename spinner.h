@@ -92,13 +92,13 @@ void spinner_restart(spinner_t *s);
  * spinner_char_set_update updates the character
  * set with the new given one.
  */
-void spinner_char_set_update(spinner_t *s, int id);
+void spinner_char_set_update(spinner_t *s, const int id);
 
 /*
  * spinner_update_speed updates the speed at which
  * the spinner is spinning.
  */
-void spinner_update_speed(spinner_t *s, uint64_t delay);
+void spinner_update_speed(spinner_t *s, const uint64_t delay);
 
 /*
  * spinner_set_output_dest sets the file descriptor to 
