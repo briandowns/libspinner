@@ -7,14 +7,14 @@ NAME    = libspinner
 
 UNAME_S = $(shell uname -s)
 
-ifeq ($(UNAME_S),Linux)
+# ifeq ($(UNAME_S),Linux)
 $(NAME).so:
-	$(CC) -shared -o $(NAME).so $(NAME).c $(CFLAGS)
-endif
-ifeq ($(UNAME_S),Darwin)
-$(NAME).dylib:
-	$(CC) -dynamiclib -o $(NAME).dylib spinner.c $(CFLAGS) $(LDFLAGS)
-endif
+	$(CC) -shared -o $(NAME).so spinner.c $(CFLAGS)
+# endif
+# ifeq ($(UNAME_S),Darwin)
+# $(NAME).dylib:
+# 	$(CC) -dynamiclib -o $(NAME).dylib spinner.c $(CFLAGS) $(LDFLAGS)
+# endif
 
 .PHONY: install
 install: 
