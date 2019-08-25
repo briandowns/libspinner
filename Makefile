@@ -2,6 +2,7 @@ cc      = cc
 CFLAGS  = -std=c99 -O3 -Wall 
 LDFALGS = -lpthread 
 INCDIR  = /usr/local/include
+LIBDIR  = /usr/local/lib
 
 NAME    = libspinner
 
@@ -13,17 +14,19 @@ $(NAME).so:
 endif
 ifeq ($(UNAME_S),Darwin)
 $(NAME).dylib:
-	$(CC) -dynamiclib -o $(NAME).dylib spinner.c $(CFLAGS) $(LDFLAGS)
+	$(CC) -c -dynamiclib -o $(NAME).so spinner.c $(CFLAGS) $(LDFLAGS)
 endif
 
 .PHONY: install
 install: 
-	cp $(NAME).h $(INCDIR)
+	cp spinner.h $(INCDIR)
 ifeq ($(UNAME_S),Linux)
-	cp $(NAME).so $(INCDIR)
+	cp spinner.h $(INCDIR)
+	cp $(NAME).so $(LIBDIR)
 endif
 ifeq ($(UNAME_S),Darwin)
-	cp $(NAME).dylib $(INCDIR)
+	cp spinner.h $(INCDIR)
+	cp $(NAME).so $(LIBDIR)
 endif
 
 uninstall:
@@ -32,7 +35,7 @@ ifeq ($(UNAME_S),Linux)
 	rm -f $(INCDIR)/$(NAME).so
 endif
 ifeq ($(UNAME_S),Darwin)
-	rm -f $(INCDIR)/$(NAME).dylib
+	rm -f $(INCDIR)/$(NAME).so
 endif
 
 .PHONY: test
