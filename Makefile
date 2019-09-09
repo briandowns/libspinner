@@ -1,6 +1,6 @@
 cc      = cc
 CFLAGS  = -std=c99 -O3 -Wall 
-LDFALGS = -lpthread 
+LDFLAGS = -lpthread 
 INCDIR  = /usr/local/include
 LIBDIR  = /usr/local/lib
 
