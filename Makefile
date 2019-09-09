@@ -16,6 +16,10 @@ ifeq ($(UNAME_S),Darwin)
 $(NAME).dylib:
 	$(CC) -c -dynamiclib -o $(NAME).so spinner.c $(CFLAGS) $(LDFLAGS)
 endif
+ifeq ($(UNAME_S),FreeBSD)
+$(NAME).dylib:
+	$(CC) -c -fPIE -fPIC -fstack-protector-strong -o $(NAME).so spinner.c $(CFLAGS) $(LDFLAGS)
+endif
 
 .PHONY: install
 install: 
@@ -23,8 +27,7 @@ install:
 ifeq ($(UNAME_S),Linux)
 	cp spinner.h $(INCDIR)
 	cp $(NAME).so $(LIBDIR)
-endif
-ifeq ($(UNAME_S),Darwin)
+else
 	cp spinner.h $(INCDIR)
 	cp $(NAME).so $(LIBDIR)
 endif
