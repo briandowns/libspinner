@@ -39,7 +39,7 @@ endif
 
 .PHONY: test
 test:
-	$(CC) -o tests/tests tests/tests.c spinner.c tests/unity/unity.c
+	$(CC) -o tests/tests tests/tests.c spinner.c tests/unity/unity.c $(LDFLAGS)
 	tests/tests
 	rm -f tests/tests
 
