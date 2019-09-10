@@ -3,7 +3,7 @@ name = "libspinner"
 build = "make"
 repository = "github.com/briandowns/libspinner"
 homepage = ""
-version = "0.2.2" 
+version = "0.3.0" 
 description = "C library for adding a spinner/indicator to terminal applications."
 authors = ["Brian J. Downs"]
 
