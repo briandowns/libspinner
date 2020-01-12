@@ -34,17 +34,17 @@
 #include "spinner.h"
 
 /*
- * toggle the cursor on and off
+ * toggle the cursor on and off.
  */
-#define CURSOR_STATE(x)                                                                                                \
-    switch (x) {                                                                                                       \
-        case 0:                                                                                                        \
-            printf("\e[?25l");                                                                                         \
-            break;                                                                                                     \
-        case 1:                                                                                                        \
-            printf("\e[?25h");                                                                                         \
-            break;                                                                                                     \
-    }                                                                                                                  \
+#define CURSOR_STATE(x)        \
+    switch (x) {               \
+        case 0:                \
+            printf("\e[?25l"); \
+            break;             \
+        case 1:                \
+            printf("\e[?25h"); \
+            break;             \
+    }                          \
     fflush(stdout);
 
 char* char_sets[][MAX_CHARS] = {
@@ -200,7 +200,7 @@ char* char_sets[][MAX_CHARS] = {
 };
 
 spinner_t*
-spinner_new(int id)
+spinner_new(const int id)
 {
     spinner_t* s = malloc(sizeof(spinner_t));
     s->char_set_id = id;
@@ -213,7 +213,7 @@ spinner_new(int id)
 }
 
 void
-spinner_free(spinner_t* s)
+spinner_free(spinner_t *s)
 {
     if (s) {
         free(s);
@@ -227,7 +227,7 @@ spinner_free(spinner_t* s)
  * current state.
  */
 static int
-spinner_state(spinner_t* s)
+spinner_state(spinner_t *s)
 {
     int state;
     pthread_mutex_lock(&s->mu);
@@ -242,9 +242,9 @@ spinner_state(spinner_t* s)
  * printing the character to screen.
  */
 static void*
-spin(void* arg)
+spin(void *arg)
 {
-    spinner_t* s = (spinner_t*)arg;
+    spinner_t *s = (spinner_t*)arg;
     if (s->reversed == 1) {
     }
     for (int i = 0;; i++) {
@@ -266,7 +266,7 @@ spin(void* arg)
 }
 
 void
-spinner_start(spinner_t* s)
+spinner_start(spinner_t *s)
 {
     if (s->active > 0) {
         return;
@@ -283,7 +283,7 @@ spinner_start(spinner_t* s)
 }
 
 void
-spinner_stop(spinner_t* s)
+spinner_stop(spinner_t *s)
 {
     pthread_mutex_lock(&s->mu);
     s->active = 0;
@@ -295,14 +295,14 @@ spinner_stop(spinner_t* s)
 }
 
 void
-spinner_restart(spinner_t* s)
+spinner_restart(spinner_t *s)
 {
     spinner_stop(s);
     spinner_start(s);
 }
 
 void
-spinner_char_set_update(spinner_t* s, const int id)
+spinner_char_set_update(spinner_t *s, const int id)
 {
     pthread_mutex_lock(&s->mu);
     s->char_set_id = id;
@@ -310,7 +310,7 @@ spinner_char_set_update(spinner_t* s, const int id)
 }
 
 void
-spinner_update_speed(spinner_t* s, const uint64_t delay)
+spinner_update_speed(spinner_t *s, const uint64_t delay)
 {
     pthread_mutex_lock(&s->mu);
     s->delay = delay;
@@ -318,7 +318,7 @@ spinner_update_speed(spinner_t* s, const uint64_t delay)
 }
 
 void
-spinner_set_output_dest(spinner_t* s, FILE* fd)
+spinner_set_output_dest(spinner_t *s, FILE *fd)
 {
     pthread_mutex_lock(&s->mu);
     s->output_dst = fd;
@@ -326,7 +326,7 @@ spinner_set_output_dest(spinner_t* s, FILE* fd)
 }
 
 void
-spinner_reverse(spinner_t* s)
+spinner_reverse(spinner_t *s)
 {
     pthread_mutex_lock(&s->mu);
     if (s->reversed == 0) {

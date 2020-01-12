@@ -43,7 +43,7 @@
 /*
  * char_sets is the collection of spinners.
  */
-extern char* char_sets[][MAX_CHARS];
+extern char *char_sets[][MAX_CHARS];
 
 /*
  * spinner_t maintains the state of the spinner
@@ -68,58 +68,58 @@ typedef struct
  * struct and sets sane defaults for immediate use.
  */
 spinner_t*
-spinner_new(int id);
+spinner_new(const int id);
 
 /*
  * spinner_free frees the used memory of the
  * spinner_t pointer.
  */
 void
-spinner_free(spinner_t* s);
+spinner_free(spinner_t *s);
 
 /*
  * spinner_start starts the spinner.
  */
 void
-spinner_start(spinner_t* s);
+spinner_start(spinner_t *s);
 
 /*
  * spinner_stop stops the spinner.
  */
 void
-spinner_stop(spinner_t* s);
+spinner_stop(spinner_t *s);
 
 /*
  * spinner_restart will restart the spinner.
  */
 void
-spinner_restart(spinner_t* s);
+spinner_restart(spinner_t *s);
 
 /*
  * spinner_char_set_update updates the character
  * set with the new given one.
  */
 void
-spinner_char_set_update(spinner_t* s, const int id);
+spinner_char_set_update(spinner_t *s, const int id);
 
 /*
  * spinner_update_speed updates the speed at which
  * the spinner is spinning.
  */
 void
-spinner_update_speed(spinner_t* s, const uint64_t delay);
+spinner_update_speed(spinner_t *s, const uint64_t delay);
 
 /*
  * spinner_set_output_dest sets the file descriptor to
  * write spinner output to.
  */
 void
-spinner_set_output_dest(spinner_t* s, FILE* fd);
+spinner_set_output_dest(spinner_t *s, FILE *fd);
 
 /*
  * spinner_reverse reverses the direction of the spinner.
  */
 void
-spinner_reverse(spinner_t* s);
+spinner_reverse(spinner_t *s);
 
 #endif

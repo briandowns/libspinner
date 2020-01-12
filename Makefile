@@ -8,14 +8,14 @@ NAME    = libspinner
 
 UNAME_S = $(shell uname -s)
 
-ifeq ($(UNAME_S),Linux)
-$(NAME).so:
-	$(CC) -shared -o $(NAME).so spinner.c $(CFLAGS)
-endif
 ifeq ($(UNAME_S),Darwin)
 $(NAME).dylib:
 	$(CC) -c -dynamiclib -o $(NAME).so spinner.c $(CFLAGS) $(LDFLAGS)
+else
+$(NAME).so:
+	$(CC) -shared -o $(NAME).so spinner.c $(CFLAGS)
 endif
+
 
 .PHONY: install
 install: 
@@ -43,6 +43,12 @@ test:
 	tests/tests
 	rm -f tests/tests
 
+.PHONY: clean
+clean:
+	rm -f libspinner.so
+	rm -f example
+
 .PHONY: run-example
 run-example:
 	$(CC) $(CFLAGS) -o example examples/main.c spinner.c
+
