@@ -8,6 +8,8 @@ NAME    = libspinner
 
 UNAME_S = $(shell uname -s)
 
+all: $(NAME).so
+
 ifeq ($(UNAME_S),Darwin)
 $(NAME).dylib:
 	$(CC) -c -dynamiclib -o $(NAME).so spinner.c $(CFLAGS) $(LDFLAGS)
@@ -15,7 +17,6 @@ else
 $(NAME).so:
 	$(CC) -shared -o $(NAME).so spinner.c $(CFLAGS)
 endif
-
 
 .PHONY: install
 install: 
