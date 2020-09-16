@@ -47,7 +47,10 @@ extern char *char_sets[][MAX_CHARS];
 
 /*
  * spinner_t maintains the state of the spinner
- * and allows for control.
+ * and allows for control. The library methods 
+ * should be used to update values on this data
+ * to avoid potential races. This memory needs
+ * to be freed by the caller.
  */
 typedef struct
 {
