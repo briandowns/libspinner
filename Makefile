@@ -12,10 +12,10 @@ all: $(NAME).so
 
 ifeq ($(UNAME_S),Darwin)
 $(NAME).dylib:
-	$(CC) -c -dynamiclib -o $(NAME).so spinner.c $(CFLAGS) $(LDFLAGS)
+	$(CC) -c -dynamiclib -o $(NAME).so $(CFLAGS) $(LDFLAGS)
 else
 $(NAME).so:
-	$(CC) -shared -o $(NAME).so spinner.c $(CFLAGS)
+	$(CC) -shared -o $(NAME).so $(CFLAGS)
 endif
 
 .PHONY: install
@@ -40,7 +40,7 @@ endif
 
 .PHONY: test
 test:
-	$(CC) -o tests/tests tests/tests.c spinner.c tests/unity/unity.c $(LDFLAGS)
+	$(CC) -o tests/tests tests/tests.c tests/unity/unity.c $(LDFLAGS)
 	tests/tests
 	rm -f tests/tests
 
@@ -51,5 +51,5 @@ clean:
 
 .PHONY: run-example
 run-example:
-	$(CC) $(CFLAGS) -o example examples/main.c spinner.c
+	$(CC) $(CFLAGS) -o example examples/main.c
 
