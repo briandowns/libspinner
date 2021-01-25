@@ -7,7 +7,7 @@
 int
 main(int argc, char** argv)
 {
-    spinner_t* s = spinner_new(19);
+    spinner_t* s = spinner_new(9);
     s->delay = 100000;
     s->prefix = "Running ";
     s->suffix = " I'm a suffix";
