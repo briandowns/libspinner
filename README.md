@@ -27,7 +27,8 @@ make test
 * Chain, pipe, redirect output
 * Output final string on spinner/indicator completion
 
-## (sample of) Available Character Sets
+## 90 Character Sets. Some examples below:
+
 (cursor not visible in normal operation)
 
 | index | character set                                                                                                                                                                                                                                                                             | sample gif                 |
