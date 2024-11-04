@@ -339,7 +339,7 @@ spinner_stop(spinner_t *s)
     s->active = 0;
     pthread_mutex_unlock(&s->mu);
 
-    if (s->final_msg == '\0') {
+    if (s->final_msg[0] != '\0') {
         fprintf(s->output_dst, "%s", s->final_msg);
         fflush(s->output_dst);
 
