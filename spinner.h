@@ -106,7 +106,7 @@ spinner_stop(spinner_t *s);
  * spinner_restart will restart the spinner.
  */
 void
-spinner_restart(const spinner_t *s);
+spinner_restart(spinner_t *s);
 
 /*
  * spinner_char_set_update updates the character

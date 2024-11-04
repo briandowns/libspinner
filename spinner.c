@@ -355,7 +355,7 @@ spinner_stop(spinner_t *s)
  * spinner_restart will restart the spinner.
  */
 void
-spinner_restart(const spinner_t *s)
+spinner_restart(spinner_t *s)
 {
     spinner_stop(s);
     spinner_start(s);
