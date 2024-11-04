@@ -1,21 +1,23 @@
-cc      = cc
+cc = cc
+
 CFLAGS  = -std=c99 -O3 -Wall 
 LDFLAGS = -lpthread 
-INCDIR  = /usr/local/include
-LIBDIR  = /usr/local/lib
 
 NAME    = libspinner
 
 UNAME_S = $(shell uname -s)
 
-all: $(NAME).so
+# respect traditional UNIX path usage
+INCDIR  = /usr/local/include
+LIBDIR  = /usr/local/lib
 
 ifeq ($(UNAME_S),Darwin)
-$(NAME).dylib:
-	$(CC) -c -dynamiclib -o $(NAME).so $(CFLAGS) $(LDFLAGS)
-else
-$(NAME).so:
-	$(CC) -shared -o $(NAME).so $(CFLAGS)
+$(NAME).dylib: clean
+	$(CC) -c -dynamiclib -o $@ $(CFLAGS) $(LDFLAGS)
+endif
+ifeq ($(UNAME_S),Linux)
+$(NAME).so: clean
+	$(CC) -shared -o $@ $(CFLAGS) $(LDFLAGS)
 endif
 
 .PHONY: install
@@ -24,9 +26,10 @@ install:
 ifeq ($(UNAME_S),Linux)
 	cp spinner.h $(INCDIR)
 	cp $(NAME).so $(LIBDIR)
-else
+endif
+ifeq ($(UNAME_S),Darwin)
 	cp spinner.h $(INCDIR)
-	cp $(NAME).so $(LIBDIR)
+	cp $(NAME).dylib $(LIBDIR)
 endif
 
 uninstall:
@@ -35,21 +38,21 @@ ifeq ($(UNAME_S),Linux)
 	rm -f $(INCDIR)/$(NAME).so
 endif
 ifeq ($(UNAME_S),Darwin)
-	rm -f $(INCDIR)/$(NAME).so
+	rm -f $(INCDIR)/$(NAME).dylib
 endif
 
 .PHONY: test
 test:
-	$(CC) -o tests/tests tests/tests.c tests/unity/unity.c $(LDFLAGS)
+	$(CC) -o tests/tests spinner.c tests/tests.c tests/unity/unity.c $(LDFLAGS)
 	tests/tests
 	rm -f tests/tests
 
 .PHONY: clean
 clean:
-	rm -f libspinner.so
+	rm -f $(NAME).dylib
+	rm -f $(NAME).so
 	rm -f example
 
-.PHONY: run-example
-run-example:
-	$(CC) $(CFLAGS) -o example examples/main.c
-
+.PHONY: example
+example: clean
+	$(CC) -o $@ spinner.c example.c $(CFLAGS) $(LDFLAGS)

@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  run-example:
+    name: Example
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: master
+    - name: Force Pull
+      run: git pull origin master
+    - name: Install Dependencies
+      run: sudo apt install -y make build-essential
+    - name: run tests
+      run: |
+        make test    
+    - name: Compile and run
+      run: |
+        make && make example

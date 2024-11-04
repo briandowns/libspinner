@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/briandowns/libspinner.svg?branch=master)](https://travis-ci.org/briandowns/libspinner)
 
-libspinner is a C single-headerlibrary that provides terminal spinners and progress indicators to display in the terminal. This is a port of the Go library [here](https://github.com/briandowns/spinner).
+libspinner is a C single-header library that provides terminal spinners and progress indicators. This is a port of the Go library [here](https://github.com/briandowns/spinner).
 
 *NOTE*: Be sure to call `spinner_stop(s)` in any signal handlers or clean up routines so the underlying pthread doesn't leak.
 
