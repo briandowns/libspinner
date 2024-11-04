@@ -42,7 +42,7 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 .PHONY: test
-test:
+test: clean
 	$(CC) -o tests/tests spinner.c tests/tests.c tests/unity/unity.c $(LDFLAGS)
 	tests/tests
 	rm -f tests/tests
@@ -52,6 +52,7 @@ clean:
 	rm -f $(NAME).dylib
 	rm -f $(NAME).so
 	rm -f example
+	rm -f tests/tests
 
 .PHONY: example
 example: clean

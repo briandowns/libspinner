@@ -5,6 +5,7 @@
 .vscode/*
 
 bin/*
+tests/tests
 spin
 example
 libspinner.dylib
