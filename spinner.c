@@ -314,7 +314,7 @@ const uint8_t
 spinner_start(spinner_t *s)
 {
     if (s->active > 0) {
-        return;
+        return 0;
     }
 
     pthread_mutex_lock(&s->mu);
@@ -327,6 +327,8 @@ spinner_start(spinner_t *s)
     }
 
     s->active = 1;
+
+    return 0;
 }
 
 /*
