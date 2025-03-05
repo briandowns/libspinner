@@ -1,7 +1,7 @@
 /*-
  * SPDX-License-Identifier: BSD-2-Clause
  *
- * Copyright (c) 2024 Brian J. Downs
+ * Copyright (c) 2025 Brian J. Downs
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -35,13 +35,12 @@
 
 #include "spinner.h"
 
-/*
- * maximun number of characters in an array
- * of indicators.
+/**
+ * maximun number of characters in an array of indicators.
  */
 #define MAX_CHARS 1024
 
-/*
+/**
  * toggle the cursor on and off.
  */
 #define CURSOR_STATE(x)        \
@@ -55,7 +54,7 @@
     }                          \
     fflush(s->output_dst);
 
-/*
+/**
  * char_sets is the collection of spinners.
  */
 static char *char_sets[][MAX_CHARS] = {
@@ -223,10 +222,6 @@ static char *char_sets[][MAX_CHARS] = {
 	  {"↞", "↟", "↠", "↡"}
 };
 
-/*
- * spinner_new creates a new pointer to a spinner_t
- * struct and sets sane defaults for immediate use.
- */
 spinner_t*
 spinner_new(const int id)
 {
@@ -241,10 +236,6 @@ spinner_new(const int id)
     return s;
 }
 
-/*
- * spinner_free frees the used memory of the
- * spinner_t pointer.
- */
 void
 spinner_free(spinner_t *s)
 {
@@ -253,7 +244,7 @@ spinner_free(spinner_t *s)
     }
 }
 
-/*
+/**
  * spinner_state safely checks the state of the
  * spinner by aquiring a lock and returning the
  * current state.
@@ -270,7 +261,7 @@ spinner_state(spinner_t *s)
     return state;
 }
 
-/*
+/**
  * spin is run in a pthread and is responsible for
  * iterating across the selected character set and
  * printing the character to screen.
@@ -307,9 +298,6 @@ spin(void *arg)
     return NULL;
 }
 
-/*
- * spinner_start starts the spinner.
- */
 const uint8_t
 spinner_start(spinner_t *s)
 {
@@ -331,9 +319,6 @@ spinner_start(spinner_t *s)
     return 0;
 }
 
-/*
- * spinner_stop stops the spinner.
- */
 void
 spinner_stop(spinner_t *s)
 {
@@ -353,9 +338,6 @@ spinner_stop(spinner_t *s)
     CURSOR_STATE(1);
 }
 
-/*
- * spinner_restart will restart the spinner.
- */
 void
 spinner_restart(spinner_t *s)
 {
@@ -363,10 +345,6 @@ spinner_restart(spinner_t *s)
     spinner_start(s);
 }
 
-/*
- * spinner_char_set_update updates the character
- * set with the new given one.
- */
 void
 spinner_char_set_update(spinner_t *s, const int id)
 {
@@ -375,10 +353,6 @@ spinner_char_set_update(spinner_t *s, const int id)
     pthread_mutex_unlock(&s->mu);
 }
 
-/*
- * spinner_update_speed updates the speed at which
- * the spinner is spinning.
- */
 void
 spinner_update_speed(spinner_t *s, const uint64_t delay)
 {
@@ -387,10 +361,6 @@ spinner_update_speed(spinner_t *s, const uint64_t delay)
     pthread_mutex_unlock(&s->mu);
 }
 
-/*
- * spinner_set_output_dest sets the file descriptor to
- * write spinner output to.
- */
 void
 spinner_set_output_dest(spinner_t *s, FILE *fd)
 {
@@ -399,13 +369,11 @@ spinner_set_output_dest(spinner_t *s, FILE *fd)
     pthread_mutex_unlock(&s->mu);
 }
 
-/*
- * spinner_reverse reverses the direction of the spinner.
- */
 void
 spinner_reverse(spinner_t *s)
 {
     pthread_mutex_lock(&s->mu);
+
     if (s->reversed == 0) {
         s->reversed = 1;
     }
