@@ -43,7 +43,7 @@ endif
 
 .PHONY: test
 test: clean
-	$(CC) -o tests/tests spinner.c tests/tests.c tests/unity/unity.c $(LDFLAGS)
+	$(CC) -g -o tests/tests spinner.c tests/tests.c tests/crosscheck.c $(LDFLAGS)
 	tests/tests
 	rm -f tests/tests
 
