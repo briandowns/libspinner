@@ -44,7 +44,7 @@ endif
 .PHONY: test
 test: clean
 	$(CC) -g -o tests/tests spinner.c tests/tests.c tests/crosscheck.c $(LDFLAGS)
-	tests/tests
+	valgrind --leak-check=full tests/tests
 	rm -f tests/tests
 
 .PHONY: clean

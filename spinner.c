@@ -24,6 +24,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+#define _DEFAULT_SOURCE
 
 #include <pthread.h>
 #include <stdint.h>
@@ -294,6 +295,8 @@ spin(void *arg)
     
         usleep(s->delay);
     }
+
+    pthread_exit(0);
 
     return NULL;
 }

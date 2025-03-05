@@ -16,12 +16,13 @@ cc_setup()
 void
 cc_tear_down()
 {
+    spinner_stop(s);
     spinner_free(s);
 }
 
 /**
- * test_spinner_new verifies that the spinner_new
- * function returns a valid pointer.
+ * test_spinner_new verifies that the spinner_new function returns a valid
+ * pointer.
  */
 cc_result_t
 test_spinner_new(void)
@@ -30,9 +31,8 @@ test_spinner_new(void)
     CC_SUCCESS;
 }
 
-/*
- * test_spinner_start verifies that the spinner
- * starts when start is called.
+/**
+ * test_spinner_start verifies that the spinner starts when start is called.
  */
 cc_result_t
 test_spinner_start(void)
@@ -43,9 +43,8 @@ test_spinner_start(void)
     CC_SUCCESS;
 }
 
-/*
- * test_spinner_stop verifies that the spinner
- * stops when stop is called.
+/**
+ * test_spinner_stop verifies that the spinner stops when stop is called.
  */
 cc_result_t
 test_spinner_stop(void)
@@ -57,9 +56,9 @@ test_spinner_stop(void)
     CC_SUCCESS;
 }
 
-/*
- * test_spinner_char_set_update verifies that a
- * new character set can be provided safely.
+/**
+ * test_spinner_char_set_update verifies that a new character set can be
+ * provided safely.
  */
 cc_result_t
 test_spinner_char_set_update(void)
@@ -69,9 +68,9 @@ test_spinner_char_set_update(void)
     CC_SUCCESS;
 }
 
-/*
- * test_spinner_update_speed verifies that the
- * speed of the spinner can be updates safely.
+/**
+ * test_spinner_update_speed verifies that the speed of the spinner can be
+ * updates safely.
  */
 cc_result_t
 test_spinner_update_speed(void)
