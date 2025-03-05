@@ -331,7 +331,7 @@
      };
  
  /**
-  * CC_ASSERT_TRUE. 
+  * CC_ASSERT_TRUE checks to see if the given value is true.
   */
  #define CC_ASSERT_TRUE(actual)        \
      do {                              \
@@ -342,7 +342,7 @@
      } while (0)
  
  /**
-  * CC_ASSERT_FALSE. 
+  * CC_ASSERT_FALSE checks to see if the given value is false.
   */
  #define CC_ASSERT_FALSE(actual)   \
  do {                              \
@@ -351,7 +351,39 @@
          return ccrt;              \
      }                             \
  } while (0)
- 
+
+#define __CC_NULL_RES cc_result_t ccrt = (cc_result_t) { \
+    .filename = __FILE__,                                \
+    .function = (char*)__FUNCTION__,                     \
+    .type = test_type_string,                            \
+    .result = false,                                     \
+    .line = __LINE__                                     \
+};
+
+/**
+* CC_ASSERT_NULL checks to see if the given value is NULL.
+*/
+#define CC_ASSERT_NULL(actual)                           \
+do {                                                     \
+    if (actual != NULL) {                                \
+        __CC_NULL_RES;                                   \
+        __CC_STRING_VAL_COPY("NULL", "not NULL");        \
+        return ccrt;                                     \
+    }                                                    \
+} while (0)
+
+/**
+* CC_ASSERT_NOT_NULL checks to see if the given value is not NULL.
+*/
+#define CC_ASSERT_NOT_NULL(actual)                       \
+do {                                                     \
+    if (actual == NULL) {                                \
+        __CC_NULL_RES;                                   \
+        __CC_STRING_VAL_COPY("not NULL", "NULL");        \
+        return ccrt;                                     \
+    }                                                    \
+} while (0)
+
  /**
   * cc_setup is a function that needs to be implemented by the consumer of the 
   * library and will be ran before every test.

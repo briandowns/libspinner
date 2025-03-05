@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <strings.h>
 
 #include "crosscheck.h"
@@ -27,7 +25,7 @@ cc_tear_down()
 cc_result_t
 test_spinner_new(void)
 {
-    //TEST_ASSERT_NOT_NULL(s);
+    CC_ASSERT_NOT_NULL(s);
     CC_SUCCESS;
 }
 
