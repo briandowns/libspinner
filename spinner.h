@@ -52,6 +52,7 @@ typedef struct
 {
     uint8_t char_set_id;
     uint64_t delay;
+    pthread_t thread; // track thread
     pthread_mutex_t mu;
     FILE *output_dst;
     char *prefix;

@@ -270,75 +270,82 @@ spinner_state(spinner_t *s)
 static void*
 spin(void *arg)
 {
-    spinner_t *s = (spinner_t*)arg;
-    if (s->reversed == 1) {}
+  spinner_t *s = (spinner_t*)arg;
+  int i = 0;
 
-    for (int i = 0;; i++) {
-        // check if we're reached an index with no string. If
-        // we have, reset the counter and start again.
-        if (!char_sets[s->char_set_id][i]) {
-            i = -1;
-            continue;
-        }
-    
-        char output[MAX_CHARS * 4];
-        sprintf(output, "\r%s%s%s",
-            s->prefix, char_sets[s->char_set_id][i], s->suffix);
-    
-        fprintf(s->output_dst, "%s", output);
-        fflush(s->output_dst);
-        fprintf(s->output_dst, "\33[2K\r");
-
-        if (s->output_dst != stdout) {
-            fclose(s->output_dst);
-        }
-    
-        usleep(s->delay);
+  // loop only while marked as active
+  while (spinner_state(s) > 0) {
+    if (!char_sets[s->char_set_id][i]) {
+      i = 0;
+      continue;
     }
 
-    pthread_exit(0);
+    char output[MAX_CHARS * 4];
 
-    return NULL;
+    pthread_mutex_lock(&s->mu); // mutex data race protection
+    sprintf(output, "\r%s%s%s", s->prefix, char_sets[s->char_set_id][i], s->suffix);
+    FILE *dest = s->output_dst;
+    uint64_t delay = s->delay;
+    pthread_mutex_unlock(&s->mu); // mutex data race protection
+
+    fprintf(dest, "%s", output);
+    fflush(dest);
+    fprintf(dest, "\33[2K\r");
+
+    usleep(delay);
+    i++;
+  }
+
+  pthread_exit(0);
+  return NULL;
 }
 
 const uint8_t
 spinner_start(spinner_t *s)
 {
-    if (s->active > 0) {
-        return 0;
-    }
-
-    pthread_mutex_lock(&s->mu);
-    CURSOR_STATE(0);
-    pthread_t spin_thread;
-    pthread_mutex_unlock(&s->mu);
-
-    if (pthread_create(&spin_thread, NULL, spin, s)) {
-        return ERR_CREATING_THREAD;
-    }
-
-    s->active = 1;
-
+  if (spinner_state(s) > 0) {
     return 0;
+  }
+
+  pthread_mutex_lock(&s->mu); // mutex data race protection
+  CURSOR_STATE(0);
+  s->active = 1; // sets spinner as active
+  pthread_mutex_unlock(&s->mu); // mutex data race protection
+
+  if (pthread_create(&s->thread, NULL, spin, s)) { // newly spawned thread gets tracked by the struct
+    pthread_mutex_lock(&s->mu); // mutex data race protection
+    s->active = 0;
+    pthread_mutex_unlock(&s->mu); // mutex data race protection
+    return ERR_CREATING_THREAD;
+  }
+
+  return 0;
 }
 
 void
 spinner_stop(spinner_t *s)
 {
-    pthread_mutex_lock(&s->mu);
-    s->active = 0;
+  pthread_mutex_lock(&s->mu); // mutex protection
+  if (s->active == 0) { // check if not active
     pthread_mutex_unlock(&s->mu);
+    return;
+  }
+  s->active = 0; // sets the spinner as non active
+  pthread_mutex_unlock(&s->mu);
 
-    if (s->final_msg[0] != '\0') {
-        fprintf(s->output_dst, "%s", s->final_msg);
-        fflush(s->output_dst);
+  // wait on the thread to end
+  pthread_join(s->thread, NULL);
 
-        if (s->output_dst != stdout) {
-            fclose(s->output_dst);
-        }
+  if (s->final_msg[0] != '\0') {
+    fprintf(s->output_dst, "%s", s->final_msg);
+    fflush(s->output_dst);
+
+    if (s->output_dst != stdout) {
+      fclose(s->output_dst);
     }
+  }
 
-    CURSOR_STATE(1);
+  CURSOR_STATE(1);
 }
 
 void
