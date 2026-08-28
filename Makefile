@@ -14,8 +14,7 @@ LIBDIR  = /usr/local/lib
 ifeq ($(UNAME_S),Darwin)
 $(NAME).dylib: clean
 	$(CC) -c -dynamiclib -o $@ $(CFLAGS) $(LDFLAGS)
-endif
-ifeq ($(UNAME_S),Linux)
+else
 $(NAME).so: clean
 	$(CC) -shared -o $@ $(CFLAGS) $(LDFLAGS)
 endif
@@ -23,22 +22,18 @@ endif
 .PHONY: install
 install: 
 	cp spinner.h $(INCDIR)
-ifeq ($(UNAME_S),Linux)
-	cp spinner.h $(INCDIR)
-	cp $(NAME).so $(LIBDIR)
-endif
 ifeq ($(UNAME_S),Darwin)
-	cp spinner.h $(INCDIR)
 	cp $(NAME).dylib $(LIBDIR)
+else
+	cp $(NAME).so $(LIBDIR)
 endif
 
 uninstall:
 	rm -f $(INCDIR)/spinner.h
-ifeq ($(UNAME_S),Linux)
-	rm -f $(INCDIR)/$(NAME).so
-endif
 ifeq ($(UNAME_S),Darwin)
 	rm -f $(INCDIR)/$(NAME).dylib
+else
+	rm -f $(INCDIR)/$(NAME).so
 endif
 
 .PHONY: test
